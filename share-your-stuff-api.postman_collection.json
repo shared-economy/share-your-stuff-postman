@@ -1,0 +1,819 @@
+{
+	"info": {
+		"_postman_id": "4a09ad79-d6b6-4f35-b3ec-95c8765dfa12",
+		"name": "share-your-stuff-api",
+		"description": "# Introduction\nThis is a API for the sharing economy web application. It is meant to be a distributed network to share objects and services.\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login (OpenId Connect)",
+			"item": [
+				{
+					"name": "{{api}}/oidc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"username\": \"{{username}}\", \"password\": \"{{password}}\" }"
+						},
+						"url": {
+							"raw": "{{api}}/oidc?client_id={{client.id}}&redirect_uri={{redirect.uri}}&response_type=id_token&scope=openid",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"oidc"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "{{client.id}}"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect.uri}}"
+								},
+								{
+									"key": "response_type",
+									"value": "id_token"
+								},
+								{
+									"key": "scope",
+									"value": "openid"
+								}
+							]
+						},
+						"description": "Authenticate on the api."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "register / invite",
+			"item": [
+				{
+					"name": "2fa",
+					"item": [
+						{
+							"name": "{{api}}/2fa",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/2fa",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"2fa"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/2fa/status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/2fa/status",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"2fa",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/2fa/setup",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/2fa/setup",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"2fa",
+										"setup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/2fa/challenge",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								},
+								"description": "Get the current challenge from the user's second factor."
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "{{api}}/register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"{{user.email}}\",\n\t\"firstname\":\"\",\n\t\"lastname\":\"\",\n\t\"username\":\"\",\n\t\"password\":\"\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/register",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "Register a new user on the system"
+					},
+					"response": []
+				},
+				{
+					"name": "{{api}}/invite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/invite",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"invite"
+							]
+						},
+						"description": "Register a new user on the system"
+					},
+					"response": []
+				}
+			],
+			"description": "The requests to add a new user accounts and insert invite codes."
+		},
+		{
+			"name": "authenticated",
+			"item": [
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "{{api}}/self",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"{{user.username}}\",\n\t\"password\":\"{{user.password}}\",\n\t\"confirmation\":\"YES I KNOW WHAT I'M DOING!\"\n}"
+								},
+								"url": {
+									"raw": "{{api}}/self",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"self"
+									]
+								},
+								"description": "Get user details for the given user uuid."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/user/{{user.uuid}}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/user/{{user.uuid}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"user",
+										"{{user.uuid}}"
+									]
+								},
+								"description": "Get user details for the given user uuid."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/user/{{user.uuid}}",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/user/{{user.uuid}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"user",
+										"{{user.uuid}}"
+									]
+								},
+								"description": "Update the user details based on the user uuid."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/user/{{user.uuid}}/favourites",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/user/{{user.uuid}}/favourites",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"user",
+										"{{user.uuid}}",
+										"favourites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/user/{{user.uuid}}/favourites",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"objects\":[\n\t\t\"{{object.uuid}}\"\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{api}}/user/{{user.uuid}}/favourites",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"user",
+										"{{user.uuid}}",
+										"favourites"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "All requests that affect the user, such as profile management, etc.",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "objects",
+					"item": [
+						{
+							"name": "{{api}}/object/{{object.uuid}}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/object/{{object.uuid}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"object",
+										"{{object.uuid}}"
+									]
+								},
+								"description": "Update object based on uuid."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/object/",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{api}}/object/",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"object",
+										""
+									]
+								},
+								"description": "Insert object based on uuid."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/object/{{object.uuid}}",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/object/{{object.uuid}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"object",
+										"{{object.uuid}}"
+									]
+								},
+								"description": "Get details to the object based on the uuid."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/user/{{user.id}}/groups",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/user/{{user.id}}/groups",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"user",
+										"{{user.id}}",
+										"groups"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Alle requests to manage objects from the user's perspective.\n- add new object\n- edit existing object\n- delet object",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3a5d9a3f-8851-48c6-989a-b9cb503810bd",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "8844f658-62db-4174-b639-1b8321442068",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "groups",
+					"item": [
+						{
+							"name": "{{api}}/groups/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/group/{{group.uuid}}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/group/{{group.uuid}}/users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/group/{{group.uuid}}/users",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"group",
+										"{{group.uuid}}",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/group/{{group.uuid}}/objects",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "sharing",
+					"item": [
+						{
+							"name": "handover",
+							"item": [
+								{
+									"name": "{{api}}/handover/{{object.uuid}}/to/{{user.id}}",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{api}}/handover/{{object.uuid}}/to/{{user.id}}",
+											"host": [
+												"{{api}}"
+											],
+											"path": [
+												"handover",
+												"{{object.uuid}}",
+												"to",
+												"{{user.id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "{{api}}/handover/{{object.uuid}}/to/{{user.id}}",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{api}}/handover/{{object.uuid}}/to/{{user.id}}",
+											"host": [
+												"{{api}}"
+											],
+											"path": [
+												"handover",
+												"{{object.uuid}}",
+												"to",
+												"{{user.id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "{{api}}/handover/{{object.uuid}}/to/{{user.id}}",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{api}}/handover/{{object.uuid}}/to/{{user.id}}",
+											"host": [
+												"{{api}}"
+											],
+											"path": [
+												"handover",
+												"{{object.uuid}}",
+												"to",
+												"{{user.id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "{{api}}/share/{{object.uuid}}/with/{{user.uuid}}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/share/{{object.uuid}}/with/{{user.uuid}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"share",
+										"{{object.uuid}}",
+										"with",
+										"{{user.uuid}}"
+									]
+								},
+								"description": "Get details about the share object with user."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/share/{{object.uuid}}/with/{{user.uuid}}",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/share/{{object.uuid}}/with/{{user.uuid}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"share",
+										"{{object.uuid}}",
+										"with",
+										"{{user.uuid}}"
+									]
+								},
+								"description": "Setup the sharing process of object with user."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/share/{{object.uuid}}/with/{{user.uuid}}",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/share/{{object.uuid}}/with/{{user.uuid}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"share",
+										"{{object.uuid}}",
+										"with",
+										"{{user.uuid}}"
+									]
+								},
+								"description": "Update share process of object with user."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/share/{{object.uuid}}/with/{{user.uuid}}",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/share/{{object.uuid}}/with/{{user.uuid}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"share",
+										"{{object.uuid}}",
+										"with",
+										"{{user.uuid}}"
+									]
+								},
+								"description": "Update share process of object with user."
+							},
+							"response": []
+						}
+					],
+					"description": "All actions to share an object and to manage the exchange and borrow process.",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "search",
+					"item": [
+						{
+							"name": "{{api}}/search/full",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/search/full?query={{user.lastname}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"search",
+										"full"
+									],
+									"query": [
+										{
+											"key": "query",
+											"value": "{{user.lastname}}"
+										}
+									]
+								},
+								"description": "Search on all user and object data and show matches."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/search/instances",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/search/instances",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"search",
+										"instances"
+									]
+								},
+								"description": "Get search instances listed that are allowed to be searched on."
+							},
+							"response": []
+						},
+						{
+							"name": "{{api}}/search/instances",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/search/instances",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"search",
+										"instances"
+									]
+								},
+								"description": "Get search instances listed that are allowed to be searched on."
+							},
+							"response": []
+						}
+					],
+					"description": "search for objects or users",
+					"_postman_isSubFolder": true
+				}
+			],
+			"description": "This folder includes all requests that need to be authenticated through the Login API."
+		},
+		{
+			"name": "administration (only localhost)",
+			"item": [],
+			"description": "This is the localhost admin iterface it can't be accessed from the internet for security reasons."
+		},
+		{
+			"name": "{{api}}/status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1e9b8309-14d2-4817-99fe-99d8e8774d5a",
+						"exec": [
+							"pm.test(\"Is API active?\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(\"active\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api}}/status",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"status"
+					]
+				},
+				"description": "Receive status details of the api."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/status",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{beare_toke}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "974db946-a43a-43f8-93ef-c57537311ad3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "85b3790f-88bd-4913-a5d1-5a1f36f1cc45",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
